@@ -174,6 +174,7 @@ class project(Resource):
 # To add route to flask for the api call
 api.add_resource(project, "/projects/<int:user_id>") 
 api.add_resource(expense, "/expense/<int:expense_id>") 
+# api.add_resource(user, "/user/<int:user_id>") 
 
 if __name__ == "__main__":
 	app.run(debug=False)
