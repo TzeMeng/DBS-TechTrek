@@ -31,10 +31,13 @@ def get_user():
         todo_id = request.args.get('username')    
         if todo_id:
             todo = todo_ref.document(todo_id).get()
-            return jsonify(todo.to_dict()), 200
+            data = jsonify(todo.to_dict()), 200
         else:
             all_todos = [doc.to_dict() for doc in todo_ref.stream()]
-            return jsonify(all_todos), 200
+            data =  jsonify(all_todos), 200
+        
+
+
     except Exception as e:
         return f"An Error Occured: {e}"
     
