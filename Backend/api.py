@@ -154,7 +154,8 @@ def login():
 
     for user in data:
         if user["username"] == username and user["password"] == password:
-            return jsonify(access_token=access_token, user["id"])
+            access_token = create_access_token(username)
+            return jsonify(access_token=access_token, userId=user["id"])
             
     return jsonify({"msg": "Bad username or password"}), 401
 
