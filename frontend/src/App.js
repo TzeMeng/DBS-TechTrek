@@ -20,13 +20,13 @@ function App() {
           <Route path="/projects" exact>
             <Projects />
           </Route>
-          <Route path="/projects/:projectId">
+          <Route path="/projects/:projectId" exact>
             <Overview />
           </Route>
           <Route path="/expenses/:expenseId">
             <Expense />
           </Route>
-          <Route path="/createExpense">
+          <Route path="/projects/:projectId/create">
             <CreateExpense />
           </Route>
         </Switch>
