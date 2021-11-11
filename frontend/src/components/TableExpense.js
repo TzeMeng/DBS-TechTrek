@@ -1,8 +1,30 @@
 import { Table } from "react-bootstrap";
 
 const TableExpense = ({ title, data }) => {
+  const row = data.length;
+  const header_names = Object.keys(data[0]);
+
+  var dataFiltered = [];
+
+  for (let i = 0; i < row; i++) {
+    let expense = data[i];
+    dataFiltered.push({
+      id: expense.id,
+      name: expense.name,
+      description: expense.description,
+      amount: expense.amount,
+    });
+  }
+
+  // console.log("filter", dataFiltered);
+
   const createTable = (data) => {
-    console.log(data);
+    // const routeChange = () => {
+    //   href={`/projects/${projectInfo.id}`}
+    // }
+
+
+    // console.log(data);
     const row = data.length;
     const col = Object.keys(data[0]).length;
 
@@ -13,8 +35,10 @@ const TableExpense = ({ title, data }) => {
     // header
     let header = [];
     for (let k = 0; k < col; k++) {
-		console.log(header_names[k])
-      header.push(<th key={`header${k}`}>{header_names[k]}</th>);
+      if (header_names[k] != "id") {
+        // console.log(header_names[k])
+        header.push(<th key={`header${k}`}>{header_names[k]}</th>);
+      }
     }
     table.push(<tr key="header">{header}</tr>);
 
@@ -24,11 +48,17 @@ const TableExpense = ({ title, data }) => {
 
       // columns
       for (let j = 0; j < col; j++) {
-        children.push(<td key={j}>{data[0][header_names[j]]}</td>);
+        if (header_names[j] != "id") {
+          children.push(<td key={j}>{data[i][header_names[j]]}</td>);
+        }
       }
 
       //Create the parent and add the children
-      table.push(<tr key={i}>{children}</tr>);
+      table.push(
+        <tr key={data[i]['id']} onClick={() => {window.open(`/expenses/${data[i]['id']}`, "_self")}}>
+          {children}
+        </tr>
+      );
     }
     return table;
   };
@@ -36,7 +66,7 @@ const TableExpense = ({ title, data }) => {
   return (
     <div>
       <Table>
-        <tbody>{createTable(data)}</tbody>
+        <tbody>{createTable(dataFiltered)}</tbody>
       </Table>
     </div>
   );

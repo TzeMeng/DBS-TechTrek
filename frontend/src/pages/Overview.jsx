@@ -29,20 +29,10 @@ const Overview = ({}) => {
 		}
 	]
 
-	const row = expenses.length;
-    const header_names = Object.keys(expenses[0]);
-
-	var dataFiltered = []
-
-	for (let i = 0; i < row; i++) {
-		let expense = expenses[i]
-		dataFiltered.push({"name": expense.name, "description":expense.description, "amount":expense.amount})
-	}
-
 	return (
 		<div className={styles.outerPage}>
 			<h1>Overview of expenses</h1>
-			<TableExpense data={dataFiltered}/>
+			<TableExpense data={expenses}/>
 		</div>
 	)
 }
