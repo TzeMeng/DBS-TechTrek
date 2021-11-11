@@ -1,35 +1,39 @@
 import { useState } from "react";
+import { useParams } from "react-router";
 import useAuth from "../hooks/useAuth";
-import { categories } from "../lib/config";
+import { baseUrl, categories } from "../lib/config";
 import styles from "../styles/IndividualExpense.module.css";
 
 const Expense = () => {
 	const { userId } = useAuth();
+	const { expenseId } = useParams();
+	const [loading, setLoading] = useState(true);
+	const [description, setDescription] = useState();
+	const [amount, setAmount] = useState();
+	const [category, setCategory] = useState();
+	const [expenseData, setExpenseData] = useState();
 
 	// TODO: Query by expense
+	const fetchExpenseData = async () => {
+		const res = await fetch(baseUrl + `/expense/${expenseId}`, {
+			method: "GET",
+		})
+		const data = await res.json();
+		setDescription(data.Description);
+		setAmount(data.Amount);
+		setCategory(categories[data.Category_id]);
+		setExpenseData(data);
+		setLoading(false);
+	}
+	fetchExpenseData();
 	
-	// dummy data
-	const expenseInfo = {
-        id: 1,
-        project_id: 2,
-        category_id: 2,
-        name: "Server Maintenance",
-        description: "Server maintenance and upgrading work to incorporate BC plans",
-        amount: 30000,
-        created_at: "2021-11-04T16:00:00.000Z",
-        created_by: "Jacky",
-        updated_at: "2021-11-06T16:00:00.000Z",
-        updated_by: "Jacky"
-    }
-
-	const [description, setDescription] = useState(expenseInfo.description);
-	const [amount, setAmount] = useState(expenseInfo.amount);
-	const [category, setCategory] = useState(categories[expenseInfo.category_id])
-
+	if (loading) {
+		return ("Loading...");
+	}
 	return (
 		<div className={styles.outerPage}>
 			<div className={styles.expensesContainer}>
-				<h1>{expenseInfo.name}</h1>
+				<h1>{expenseData.Name}</h1>
 				<label>Description</label>
 				<input
 					className={styles.input}
