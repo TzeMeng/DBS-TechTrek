@@ -1,7 +1,15 @@
+import { useHistory, useParams } from "react-router";
 import TableExpense from "../components/TableExpense";
 import styles from "../styles/Overview.module.css";
 
 const Overview = ({}) => {
+	const { projectId } = useParams()
+	const history = useHistory();
+
+	const handleAddNewExpense = () => {
+		history.push(`/projects/${projectId}/create`);
+	}
+	
 	const expenses = [
 		{
 			"id": 1,
@@ -43,6 +51,7 @@ const Overview = ({}) => {
 		<div className={styles.outerPage}>
 			<h1>Overview of expenses</h1>
 			<TableExpense data={dataFiltered}/>
+			<button className={styles.button} onClick={handleAddNewExpense}>Add new expense</button>
 		</div>
 	)
 }
