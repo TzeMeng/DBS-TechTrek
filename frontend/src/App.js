@@ -17,10 +17,10 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
-          <Route path="/projects">
+          <Route path="/projects" exact>
             <Projects />
           </Route>
-          <Route path="/expenses" exact>
+          <Route path="/projects/:projectId">
             <Overview />
           </Route>
           <Route path="/expenses/:expenseId">
