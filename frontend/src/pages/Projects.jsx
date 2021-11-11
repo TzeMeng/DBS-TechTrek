@@ -1,4 +1,4 @@
-import ProjectCard from "../Components/ProjectCard";
+import ProjectCard from "../components/ProjectCard";
 import useAuth from "../hooks/useAuth";
 import styles from "../styles/Projects.module.css";
 
