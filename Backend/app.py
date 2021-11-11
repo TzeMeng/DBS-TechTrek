@@ -6,29 +6,24 @@ import jwt
 import datetime
 from functools import wraps
 
+import os
+
 
 app = Flask(__name__)
 
 app.config['SECRET_KEY']='Th1s1ss3cr3t'
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///user.db'
+app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///user_login.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 db = SQLAlchemy(app)
 
 class Users(db.Model):
-     id = db.Column(db.Integer, primary_key=True)
-     public_id = db.Column(db.Integer)
-     name = db.Column(db.String(50))
-     password = db.Column(db.String(50))
-     admin = db.Column(db.Boolean)
+     username = db.Column(db.String(50), primary_key=True)
+     password = db.Column(db.Integer)
 
-
-class Authors(db.Model):
-     id = db.Column(db.Integer, primary_key=True)
      name = db.Column(db.String(50), unique=True, nullable=False)
-     book = db.Column(db.String(20), unique=True, nullable=False)
-     country = db.Column(db.String(50), nullable=False)
-     booker_prize = db.Column(db.Boolean)
+     appointment = db.Column(db.String(50), unique=True, nullable=False)
+
 
 
 #### Functionality ####
@@ -56,11 +51,11 @@ def token_required(f):
 
 @app.route('/register', methods=['GET', 'POST'])
 def signup_user():  
-    data = request.get_json()  
+    data = request.get_json()
 
     hashed_password = generate_password_hash(data['password'], method='sha256')
  
-    new_user = Users(public_id=str(uuid.uuid4()), name=data['name'], password=hashed_password, admin=False) 
+    new_user = Users(public_id=str(uuid.uuid4()), name=data['username'], password=hashed_password, admin=False) 
     db.session.add(new_user)  
     db.session.commit()    
 
@@ -147,5 +142,6 @@ def delete_author(current_user, author_id):
     return jsonify({'message': 'Author deleted'})
 
 
-if  __name__ == '__main__':  
-     app.run(debug=True)
+if  __name__ == '__main__': 
+    port = int(os.environ.get('PORT', 4000)) 
+    app.run(debug=True)
