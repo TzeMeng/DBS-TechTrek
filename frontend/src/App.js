@@ -9,28 +9,30 @@ import CreateExpense from './pages/CreateExpense';
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
-          <Overview />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
-        <Route path="/projects">
-          <Projects />
-        </Route>
-        <Route path="/expenses" exact>
-          <Overview />
-        </Route>
-        <Route path="/expenses/:expenseId">
-          <Expense />
-        </Route>
-        <Route path="/createExpense">
-          <CreateExpense />
-        </Route>
-      </Switch>
-    </Router>
+    <div className="App-container">
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <Overview />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/projects">
+            <Projects />
+          </Route>
+          <Route path="/expenses" exact>
+            <Overview />
+          </Route>
+          <Route path="/expenses/:expenseId">
+            <Expense />
+          </Route>
+          <Route path="/createExpense">
+            <CreateExpense />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
   );
 }
 
