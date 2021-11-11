@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { Link, BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Overview from './pages/Overview';
