@@ -2,6 +2,7 @@ from datetime import datetime
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with, inputs
 from flask_sqlalchemy import SQLAlchemy
+from numpy import str0
 
 app = Flask(__name__)
 api = Api(app) 
@@ -10,25 +11,26 @@ db = SQLAlchemy(app)
 
 #  Supporting code to add new expense to db
 expense_post_args = reqparse.RequestParser()
-# expense_post_args.add_argument("Id", type=int, help="Expense ID is required", required=True)
+expense_post_args.add_argument("Id", type=int, help="Expense ID is required", required=True)
 expense_post_args.add_argument("Project_id", type=int, help="Project ID is required", required=True)
 expense_post_args.add_argument("Category_id", type=int, help="Category ID is required", required=True)
 expense_post_args.add_argument("Name", type=str, help="Expense name is required", required=True)
 expense_post_args.add_argument("Description", type=str, help="Expense description is required", required=True)
 expense_post_args.add_argument("Amount", type=int, help="Expense amount is required", required=True)
-expense_post_args.add_argument("Created_at", type=str, help="When was this expense created?", required=True)
+expense_post_args.add_argument("Created_at", type=str, help="When was this expense created?", required=False)
 expense_post_args.add_argument("Created_by", type=str, help="Who created this expense?", required=True)
-expense_post_args.add_argument("Updated_at", type=str, help="When was this expense updated?", required=True)
+expense_post_args.add_argument("Updated_at", type=str, help="When was this expense updated?", required=False)
 expense_post_args.add_argument("Updated_by", type=str, help="Who updated this expense?", required=True)
 
 # Supporting code to update existing expense in db
 expense_update_args = reqparse.RequestParser()
+expense_update_args.add_argument("Id", type=int, help="Expense ID is required", required=True)
 expense_update_args.add_argument("Name", type=str, help="Expense name is required", required=True)
 expense_update_args.add_argument("Description", type=str, help="Expense description is required", required=True)
 expense_update_args.add_argument("Amount", type=int, help="Expense amount is required", required=True)
-expense_update_args.add_argument("Created_at", type=datetime, help="When was this expense created?", required=True)
+expense_update_args.add_argument("Created_at", type=str, help="When was this expense created?", required=True)
 expense_update_args.add_argument("Created_by", type=str, help="Who created this expense?", required=True)
-expense_update_args.add_argument("Updated_at", type=datetime, help="When was this expense updated?", required=True)
+expense_update_args.add_argument("Updated_at", type=str, help="When was this expense updated?", required=True)
 expense_update_args.add_argument("Updated_by", type=str, help="Who updated this expense?", required=True)
 
 # Supporting code to transform data and serialise it before being processed
@@ -110,8 +112,7 @@ class expense(Resource):
 
 	def delete(self, expense_id):
         # To delete expense
-		abort_if_expense_id_doesnt_exist(expense_id)
-		del expenses[expense_id]
+
 		return '', 204
 
 #  To add new expense to the db
@@ -143,7 +144,7 @@ class project(Resource):
         # To add new project
 		args = project_post_args.parse_args()
 		result = projectModel.query.filter_by(Id=project_id).first()
-		if result: abort(409, message="project ID taken")
+		if result: abort(409, message="Project ID taken")
         
 		project = projectModel(Id=project_id, User_id=args['User_id'],\
                 Name=args['Name'], Description=args['Description'], Budget=args['Budget'])
@@ -160,10 +161,7 @@ class project(Resource):
 			abort(404, message="project doesn't exist")
 
 		if args['Name']: result.Name = args['Name']
-        # if args['Description']: result.Description = args['Description']
 		if args['Amount']: result.Amount = args['Amount']
-        # if args['Created_by']: result.Created_by = args['Created_by']
-        # if args['Updated_by']: result.Updated_by = args['Updated_by']
 
 		db.session.commit()
 
@@ -171,8 +169,6 @@ class project(Resource):
 
 	def delete(self, project_id):
         # To delete project
-		abort_if_project_id_doesnt_exist(project_id)
-		del projects[project_id]
 		return '', 204
 
 # To add route to flask for the api call
