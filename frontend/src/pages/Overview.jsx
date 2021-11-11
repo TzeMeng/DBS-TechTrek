@@ -1,7 +1,7 @@
-import Table from "../components/Table"
+import Table from "../Components/Table"
 
 const Overview = ({}) => {
-	const expense = [
+	const expenses = [
 		{
 			"id": 1,
 			"project_id": 2,
@@ -28,8 +28,18 @@ const Overview = ({}) => {
 		}
 	]
 
+	const row = expenses.length;
+    const header_names = Object.keys(expenses[0]);
+
+	var dataFiltered = []
+
+	for (let i = 0; i < row; i++) {
+		let expense = expenses[i]
+		dataFiltered.push({"name": expense.name, "description":expense.description, "amount":expense.amount})
+	}
+
 	return (
-		<Table data={expense}/>
+		<Table data={dataFiltered}/>
 	)
 }
 

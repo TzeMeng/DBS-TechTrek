@@ -1,3 +1,5 @@
+import styles from "../styles/Table.module.css";
+
 const Table = ({ title, data }) => {
   const createTable = () => {
     const row = data.length;
@@ -34,7 +36,7 @@ const Table = ({ title, data }) => {
     <div>
       <h1>{title}</h1>
 
-      <table>
+      <table className="">
         <tbody>{createTable(data)}</tbody>
       </table>
     </div>
