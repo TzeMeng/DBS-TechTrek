@@ -36,9 +36,9 @@ resource_fields = {
 	'Name': fields.String,
     'Description': fields.String,
 	'Amount': fields.Integer,
-    'Created_at': fields.Datetime,
+    'Created_at': fields.DateTime,
     'Created_by': fields.String,
-    'Updated_at': fields.Datetime,
+    'Updated_at': fields.DateTime,
     'Updated_by': fields.String,
 }
 
@@ -50,13 +50,16 @@ class expenseModel(db.Model):
     Name = db.Column(db.String(100), nullable=False)
     Description = db.Column(db.String(100), nullable=False)
     Amount = db.Column(db.Integer, nullable=False)
+    Created_at = db.Column(db.DateTime, nullable=False)
     Created_by = db.Column(db.String(100), nullable=False)
+    Updated_at = db.Column(db.DateTime, nullable=False)
     Updated_by = db.Column(db.String(100), nullable=False)
 
     def __repr__(self):
         return f'''expense(ID = {Id}, Project_id = {Project_id}, Category_id = {Category_id}, \
             Name = {Name}, Description = {Description}, Amount = {Amount}, \
-            Created_by = {Created_by}, Updated_by = {Updated_by})'''
+            Created_at = {Created_at}, Created_by = {Created_by}, \
+            Updated_at = {Updated_at}, Updated_by = {Updated_by})'''
 
 # Main code to api calls (For expense related stuffs)
 # Code is able to: query, add, modify, delete
@@ -79,7 +82,8 @@ class expense(Resource):
         
 		expense = expenseModel(Id=expense_id, Project_id=args['Project_id'], Category_id=args['Category_id'],\
                 Name=args['Name'], Description=args['Description'], Amount=args['Amount'],\
-                Created_by=args['Created_by'], Updated_by=args['Updated_by'])
+                Created_at=args['Created_at'], Created_by=args['Created_by'],\
+                Updated_at=args['Updated_at'], Updated_by=args['Updated_by'])
 		db.session.add(expense)
 		db.session.commit()
 		return expense, 201
