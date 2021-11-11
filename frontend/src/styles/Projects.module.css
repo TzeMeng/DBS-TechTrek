@@ -1,0 +1,40 @@
+.outerContainer {
+	display: flex;
+	height: 100vh;
+	justify-content: center;
+}
+
+.projectsContainer {
+	display: flex;
+	flex-direction: column;
+	width: 800px;
+}
+
+/* Styling for project cards*/
+
+.cardContainer {
+	display: flex;
+	height: 100px;
+	flex-direction: column;
+	border-top: 1px solid rgb(128, 128, 128);
+	padding: 10px 20px 10px 20px;
+}
+
+.projectName {
+	font-weight: 500;
+	color: black;
+	font-size: large;
+	margin-top: 0px;
+	margin-bottom: 5px;
+	text-decoration: none;
+}
+
+.projectName:hover {
+	cursor: pointer;
+	color: rgb(162, 162, 230);
+}
+
+.infoContainer {
+	display: flex;
+	justify-content: space-between;
+}

@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { Link, BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Overview from './pages/Overview';
@@ -18,10 +17,10 @@ function App() {
           <Route path="/login">
             <Login />
           </Route>
-          <Route path="/projects">
+          <Route path="/projects" exact>
             <Projects />
           </Route>
-          <Route path="/expenses" exact>
+          <Route path="/projects/:projectId">
             <Overview />
           </Route>
           <Route path="/expenses/:expenseId">
