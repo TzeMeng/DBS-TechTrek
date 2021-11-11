@@ -1,0 +1,47 @@
+.outerPage {
+	display: flex;
+	height: 100vh;
+	align-items: center;
+	justify-content: center;
+}
+
+.loginContainer {
+	display: flex;
+	flex-direction: column;
+	height: 300px;
+	width: 400px;
+	background-color: rgb(206, 224, 236);
+	border-radius: 10px;
+	box-shadow:  0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-left: 40px;
+	padding-right: 40px;
+}
+
+.input {
+	padding: 10px;
+}
+
+.label {
+	display: block;
+}
+
+.button {
+	margin-top: 20px;
+	height: 50px;
+	font-size: 20px;
+	width: 100px;
+	align-self: center;
+}
+
+.button:hover {
+	cursor: pointer;
+}
+
+.errorMessage {
+	color: red;
+	text-align: center;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
