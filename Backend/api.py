@@ -1,12 +1,17 @@
-from datetime import datetime
-from flask import Flask
+from datetime import datetime, timedelta
+from flask import Flask, request, jsonify
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
+from flask_jwt_extended import create_access_token, JWTManager
 
 app = Flask(__name__)
 api = Api(app) 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project_expenses.db'
 db = SQLAlchemy(app)
+
+app.config["JWT_SECRET_KEY"] = "verysecretkey"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+jwt = JWTManager(app)
 
 #  Supporting code to add new expense to db
 expense_post_args = reqparse.RequestParser()
@@ -115,6 +120,17 @@ class expense(Resource):
 # To add route to flask for the api call
 # api.add_resource(projects, "/projects/<int:user_id>") 
 api.add_resource(expense, "/expense/<int:expense_id>") 
+
+# Authentication code
+@app.route("/login", methods=['POST'])
+def login():
+    username = request.json.get("username")
+    password = request.json.get("password")
+    if username != "username" or password != "password":
+        return jsonify({"msg": "Bad username or password"}), 401
+    else:
+        access_token = create_access_token(identity=username)
+        return jsonify(access_token=access_token, userId="abcdefg")
 
 if __name__ == "__main__":
 	app.run(debug=False)
