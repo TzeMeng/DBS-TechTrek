@@ -1,13 +1,15 @@
 .outerContainer {
 	display: flex;
 	height: 100vh;
-	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
 
 .projectsContainer {
 	display: flex;
 	flex-direction: column;
 	width: 800px;
+	margin-top: 30px;
 }
 
 /* Styling for project cards*/
