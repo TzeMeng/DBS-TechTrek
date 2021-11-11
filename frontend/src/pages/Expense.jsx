@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import useAuth from "../hooks/useAuth";
 import { baseUrl, categories } from "../lib/config";
@@ -14,18 +14,20 @@ const Expense = () => {
 	const [expenseData, setExpenseData] = useState();
 
 	// TODO: Query by expense
-	const fetchExpenseData = async () => {
-		const res = await fetch(baseUrl + `/expense/${expenseId}`, {
-			method: "GET",
-		})
-		const data = await res.json();
-		setDescription(data.Description);
-		setAmount(data.Amount);
-		setCategory(categories[data.Category_id]);
-		setExpenseData(data);
-		setLoading(false);
-	}
-	fetchExpenseData();
+	useEffect(() => {
+		const fetchExpenseData = async () => {
+			const res = await fetch(baseUrl + `/expense/${expenseId}`, {
+				method: "GET",
+			})
+			const data = await res.json();
+			setDescription(data.Description);
+			setAmount(data.Amount);
+			setCategory(categories[data.Category_id]);
+			setExpenseData(data);
+			setLoading(false);
+		}
+		fetchExpenseData();
+	}, []);
 	
 	if (loading) {
 		return ("Loading...");
