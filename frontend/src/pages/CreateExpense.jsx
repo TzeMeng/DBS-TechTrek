@@ -15,6 +15,20 @@ const CreateExpense = () => {
 					className={styles.input}
 					type="text"
 				/>
+				<label>Category</label>
+				<input
+					className={styles.inputCategory}
+					list="categories"
+				/>
+				<datalist id="categories">
+					<option value="Production"></option>
+					<option value="Operation" />
+					<option value="Financial" />
+					<option value="Vendor" />
+					<option value="Manpower" />
+					<option value="Software" />
+					<option value="Hardware" />
+				</datalist>
 				<label>Amount</label>
 				<input
 					type="number"

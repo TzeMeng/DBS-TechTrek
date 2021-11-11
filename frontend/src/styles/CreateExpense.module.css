@@ -29,3 +29,10 @@
 	width: 80px;
 	align-self: center;
 }
+
+.inputCategory {
+	padding: 8px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	width: 180px;
+}
