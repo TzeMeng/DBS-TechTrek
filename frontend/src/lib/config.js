@@ -18,3 +18,5 @@ export const categoriesRev = {
 	"Software": 6,
 	"Hardware": 7,
 }
+
+export const baseUrl = "http://localhost:5000";
