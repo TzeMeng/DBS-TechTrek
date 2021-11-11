@@ -1,7 +1,8 @@
 import { Table } from "react-bootstrap";
 
 const TableExpense = ({ title, data }) => {
-  const createTable = () => {
+  const createTable = (data) => {
+    console.log(data);
     const row = data.length;
     const col = Object.keys(data[0]).length;
 
