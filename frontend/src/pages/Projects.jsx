@@ -3,9 +3,13 @@ import useAuth from "../hooks/useAuth";
 import styles from "../styles/Projects.module.css";
 
 const Projects = () => {
-	const { userId } = useAuth()
+	const { userId, setLogout } = useAuth()
 
 	// Fetch projects by USERID
+
+	const handleLogout = () => {
+		setLogout();
+	}
 
 	// Sample projects
 	const projects = [
@@ -39,6 +43,7 @@ const Projects = () => {
 					)
 				})}
 			</div>
+			<button onClick={handleLogout}>Logout</button>
 		</div>
 	)
 }

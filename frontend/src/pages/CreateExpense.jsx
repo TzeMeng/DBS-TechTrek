@@ -1,6 +1,9 @@
+import useAuth from "../hooks/useAuth";
 import styles from "../styles/CreateExpense.module.css";
 
 const CreateExpense = () => {
+	const { userId } = useAuth();
+
 	return (
 		<div className={styles.outerPage}>
 			<h1>Create new expense</h1>
