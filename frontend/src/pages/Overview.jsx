@@ -1,10 +1,12 @@
 import { useHistory, useParams } from "react-router";
 import TableExpense from "../components/TableExpense";
+import useAuth from "../hooks/useAuth";
 import styles from "../styles/Overview.module.css";
 
 const Overview = ({}) => {
 	const { projectId } = useParams()
 	const history = useHistory();
+	const { userId } = useAuth();
 
 	const handleAddNewExpense = () => {
 		history.push(`/projects/${projectId}/create`);

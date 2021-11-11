@@ -1,8 +1,10 @@
 import { useState } from "react";
+import useAuth from "../hooks/useAuth";
 import { categories } from "../lib/config";
 import styles from "../styles/IndividualExpense.module.css";
 
 const Expense = () => {
+	const { userId } = useAuth();
 
 	// TODO: Query by expense
 	
