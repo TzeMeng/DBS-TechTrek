@@ -1,10 +1,11 @@
+from datetime import datetime
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 api = Api(app) 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///user.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project_expenses.db'
 db = SQLAlchemy(app)
 
 #  Supporting code to add new expense to db
@@ -12,7 +13,9 @@ expense_post_args = reqparse.RequestParser()
 expense_post_args.add_argument("Name", type=str, help="Expense name is required", required=True)
 expense_post_args.add_argument("Description", type=str, help="Expense description is required", required=True)
 expense_post_args.add_argument("Amount", type=int, help="Expense amount is required", required=True)
+expense_post_args.add_argument("Created_at", type=datetime, help="When was this expense created?", required=True)
 expense_post_args.add_argument("Created_by", type=str, help="Who created this expense?", required=True)
+expense_post_args.add_argument("Updated_at", type=datetime, help="When was this expense updated?", required=True)
 expense_post_args.add_argument("Updated_by", type=str, help="Who updated this expense?", required=True)
 
 # Supporting code to update existing expense in db
@@ -20,7 +23,9 @@ expense_update_args = reqparse.RequestParser()
 expense_update_args.add_argument("Name", type=str, help="Expense name is required", required=True)
 expense_update_args.add_argument("Description", type=str, help="Expense description is required", required=True)
 expense_update_args.add_argument("Amount", type=int, help="Expense amount is required", required=True)
+expense_update_args.add_argument("Created_at", type=datetime, help="When was this expense created?", required=True)
 expense_update_args.add_argument("Created_by", type=str, help="Who created this expense?", required=True)
+expense_update_args.add_argument("Updated_at", type=datetime, help="When was this expense updated?", required=True)
 expense_update_args.add_argument("Updated_by", type=str, help="Who updated this expense?", required=True)
 
 # Supporting code to transform data and serialise it before being processed
@@ -31,7 +36,9 @@ resource_fields = {
 	'Name': fields.String,
     'Description': fields.String,
 	'Amount': fields.Integer,
+    'Created_at': fields.DateTime,
     'Created_by': fields.String,
+    'Updated_at': fields.DateTime,
     'Updated_by': fields.String,
 }
 
@@ -43,17 +50,22 @@ class expenseModel(db.Model):
     Name = db.Column(db.String(100), nullable=False)
     Description = db.Column(db.String(100), nullable=False)
     Amount = db.Column(db.Integer, nullable=False)
+    Created_at = db.Column(db.DateTime, nullable=False)
     Created_by = db.Column(db.String(100), nullable=False)
+    Updated_at = db.Column(db.DateTime, nullable=False)
     Updated_by = db.Column(db.String(100), nullable=False)
 
     def __repr__(self):
         return f'''expense(ID = {Id}, Project_id = {Project_id}, Category_id = {Category_id}, \
             Name = {Name}, Description = {Description}, Amount = {Amount}, \
-            Created_by = {Created_by}, Updated_by = {Updated_by})'''
+            Created_at = {Created_at}, Created_by = {Created_by}, \
+            Updated_at = {Updated_at}, Updated_by = {Updated_by})'''
 
 # Main code to api calls (For expense related stuffs)
 # Code is able to: query, add, modify, delete
+# get, post, patch, delete
 class expense(Resource):
+    
 	@marshal_with(resource_fields)
 	def get(self, expense_id):
         # To query existing expense from table
@@ -70,7 +82,8 @@ class expense(Resource):
         
 		expense = expenseModel(Id=expense_id, Project_id=args['Project_id'], Category_id=args['Category_id'],\
                 Name=args['Name'], Description=args['Description'], Amount=args['Amount'],\
-                Created_by=args['Created_by'], Updated_by=args['Updated_by'])
+                Created_at=args['Created_at'], Created_by=args['Created_by'],\
+                Updated_at=args['Updated_at'], Updated_by=args['Updated_by'])
 		db.session.add(expense)
 		db.session.commit()
 		return expense, 201
@@ -101,7 +114,7 @@ class expense(Resource):
 
 # To add route to flask for the api call
 # api.add_resource(projects, "/projects/<int:user_id>") 
-api.add_resource(expense, "/Id/<int:expense_id>") 
+api.add_resource(expense, "/expense/<int:expense_id>") 
 
 if __name__ == "__main__":
 	app.run(debug=False)
