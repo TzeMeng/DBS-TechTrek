@@ -30,6 +30,7 @@ const Login = () => {
 				body: JSON.stringify(payload),
 			})
 			if (res.status == 401 || res.status == 404) {
+				setError("Bad username or password combination");
 				return;
 			}
 			const resData = await res.json();
