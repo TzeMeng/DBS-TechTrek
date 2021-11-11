@@ -147,17 +147,16 @@ def login():
     todo_id = request.args.get('username')    
     if todo_id:
         todo = todo_ref.document(todo_id).get()
-        data = jsonify(todo.to_dict()), 200
+        data = todo.to_dict()
     else:
         all_todos = [doc.to_dict() for doc in todo_ref.stream()]
-        data =  jsonify(all_todos), 200
-    
+        data =  all_todos
+
     for user in data:
         if user["username"] == username and user["password"] == password:
             return jsonify(access_token=access_token, user["id"])
             
     return jsonify({"msg": "Bad username or password"}), 401
-
 
 
 
