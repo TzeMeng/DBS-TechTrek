@@ -1,0 +1,60 @@
+.outerPage {
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.expensesContainer {
+	display: flex;
+	flex-direction: column;
+	width: 800px;
+}
+
+.input {
+	padding: 8px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+.inputNumber {
+	padding: 8px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	width: 100px;
+}
+
+.submitButton {
+	height: 40px;	
+	width: 80px;
+	align-self: center;
+	background-color: green;
+}
+
+.submitButton:hover {
+	cursor: pointer;
+}
+
+.deleteButton {
+	height: 40px;
+	width: 80px;
+	align-self: center;
+	background-color: red;
+}
+
+.deleteButton:hover {
+	cursor: pointer;
+}
+
+.inputCategory {
+	padding: 8px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	width: 180px;
+}
+
+.buttonsContainer {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+}
