@@ -1,4 +1,5 @@
 import { Table } from "react-bootstrap";
+import styles from "../styles/Overview.module.css";
 
 const TableExpense = ({ title, data }) => {
   const row = data.length;
@@ -55,7 +56,7 @@ const TableExpense = ({ title, data }) => {
 
       //Create the parent and add the children
       table.push(
-        <tr key={data[i]['id']} onClick={() => {window.open(`/expenses/${data[i]['id']}`, "_self")}}>
+        <tr className={styles.tableRow} key={data[i]['id']} onClick={() => {window.open(`/expenses/${data[i]['id']}`, "_self")}}>
           {children}
         </tr>
       );

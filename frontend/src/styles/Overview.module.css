@@ -11,3 +11,8 @@
 	height: 50px;
 	align-self: center;
 }
+
+.tableRow:hover {
+	cursor: pointer;
+	background-color: rgb(194, 189, 189);
+}
