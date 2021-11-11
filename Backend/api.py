@@ -4,6 +4,20 @@ from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import create_access_token, JWTManager
 
+### Firebase
+import os
+import firebase
+import firebase_admin
+from firebase_admin import credentials, firestore, initialize_app
+
+
+cred = credentials.Certificate('key.json')
+
+firebase_admin.initialize_app(cred)
+
+db = firestore.client()
+todo_ref = db.collection('users')
+
 app = Flask(__name__)
 api = Api(app) 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project_expenses.db'
@@ -126,11 +140,28 @@ api.add_resource(expense, "/expense/<int:expense_id>")
 def login():
     username = request.json.get("username")
     password = request.json.get("password")
-    if username != "username" or password != "password":
-        return jsonify({"msg": "Bad username or password"}), 401
-    else:
-        access_token = create_access_token(identity=username)
-        return jsonify(access_token=access_token, userId="abcdefg")
+
+    try:
+        # Check if ID was passed to URL query
+        todo_id = request.args.get('username')    
+        if todo_id:
+            todo = todo_ref.document(todo_id).get()
+            data = jsonify(todo.to_dict()), 200
+        else:
+            all_todos = [doc.to_dict() for doc in todo_ref.stream()]
+            data =  jsonify(all_todos), 200
+    
+        for user in data:
+            if user["username"] == username and user["password"] == password:
+                return jsonify(access_token=access_token, user["id"])
+            else:
+                return jsonify({"msg": "Bad username or password"}), 401
+
+
+    except Exception as e:
+        return f"An Error Occured: {e}"
+
+
 
 if __name__ == "__main__":
 	app.run(debug=False)
