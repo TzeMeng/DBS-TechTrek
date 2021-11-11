@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Projects from './pages/Projects';
 import Expense from './pages/Expense';
 import CreateExpense from './pages/CreateExpense';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (

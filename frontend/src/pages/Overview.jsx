@@ -1,4 +1,5 @@
-import Table from "../components/Table"
+import TableExpense from "../components/Table"
+import styles from "../styles/Overview.module.css";
 
 const Overview = ({}) => {
 	const expense = [
@@ -29,7 +30,10 @@ const Overview = ({}) => {
 	]
 
 	return (
-		<Table data={expense}/>
+		<div className={styles.outerPage}>
+			<h1>Overview of expenses</h1>
+			<TableExpense data={expense}/>
+		</div>
 	)
 }
 

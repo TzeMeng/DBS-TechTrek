@@ -1,4 +1,6 @@
-const Table = ({ title, data }) => {
+import { Table } from "react-bootstrap";
+
+const TableExpense = ({ title, data }) => {
   const createTable = () => {
     const row = data.length;
     const col = Object.keys(data[0]).length;
@@ -32,11 +34,9 @@ const Table = ({ title, data }) => {
 
   return (
     <div>
-      <h1>{title}</h1>
-
-      <table>
+      <Table>
         <tbody>{createTable(data)}</tbody>
-      </table>
+      </Table>
     </div>
   );
 };
@@ -46,4 +46,4 @@ Table.defaultProps = {
   title: "Budget Management Application",
 };
 
-export default Table;
+export default TableExpense;
